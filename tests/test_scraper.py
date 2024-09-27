@@ -1,4 +1,12 @@
-from mpira.buibui import get_data, Company
+from pydantic import BaseModel, Field
+from mpira.buibui import get_data
+from mpira.settings import ollama_config
+
+
+class Company(BaseModel):
+    name: str = Field(description="Company's name")
+    description: str = Field(description="The description of the company")
+    email: str = Field(description="Company's email")
 
 
 def test_get_data():
@@ -13,7 +21,7 @@ def test_get_data():
     ).model_dump()
 
     # Act
-    results = get_data(prompt=prompt, url=url, response_model=Company)
+    results = get_data(prompt=prompt, url=url, config=ollama_config)
 
     # Assert
     assert results == expected
